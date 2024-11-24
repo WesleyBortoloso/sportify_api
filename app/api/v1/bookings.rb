@@ -52,46 +52,15 @@ module V1
         BookingSerializer.new(booking)
       end
 
-      desc 'Lista os horários disponíveis para uma quadra específica'
+      # GET /bookings/:id/available_times
+      desc 'List all availables hours related for a court'
       params do
-        requires :id, type: Integer, desc: 'ID da quadra'
-        optional :date, type: Date, desc: 'Data para verificar os horários disponíveis', default: Date.today
+        requires :id, type: Integer, desc: 'Court ID'
+        optional :date, type: Date, desc: 'Wanted date', default: Date.today
       end
 
       get ':id/available_times' do
-        court = Court.find(params[:id])
-
-        opening_time = Time.zone.parse("#{params[:date]} 08:00")
-        closing_time = Time.zone.parse("#{params[:date]} 22:00")
-
-        bookings = court.bookings
-                        .where("DATE(starts_on) = ?", params[:date])
-                        .order(:starts_on)
-
-        available_times = []
-        current_time = opening_time
-
-        while current_time < closing_time
-          next_time = current_time + 1.hour
-
-          slot_occupied = bookings.any? do |booking|
-            booking.starts_on < next_time && booking.ends_on > current_time
-          end
-
-          available_times << { start: current_time, end: next_time } unless slot_occupied
-          current_time = next_time
-        end
-
-        {
-          court_id: court.id,
-          date: params[:date],
-          available_times: available_times.map do |time|
-            {
-              start: time[:start].strftime('%H:%M'),
-              end: time[:end].strftime('%H:%M')
-            }
-          end
-        }
+        Booking::AvailableTimes.call(params)
       end
     end
   end
