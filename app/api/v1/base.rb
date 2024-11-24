@@ -9,5 +9,6 @@ module V1
     mount V1::Courts
     mount V1::Bookings
     mount V1::Players
+    mount V1::Informations
   end
 end
