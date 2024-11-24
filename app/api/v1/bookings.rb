@@ -26,7 +26,20 @@ module V1
 
       get do
         bookings = Booking.all
-        BookingSerializer.new(bookings, include: [:user, :court, :players])
+        BookingSerializer.new(bookings)
+      end
+
+      # PUT /bookings/:id
+      desc 'Update a related booking'
+      params do
+        requires :id, type: Integer, desc: 'Booking id'
+        optional :status, type: String, values: %w[agendado cancelado concluido], desc: 'Bokking status'
+        optional :public, type: Boolean, desc: 'Booking public state'
+      end
+
+      put ':id' do
+        booking = Booking::Update.call(declared(params))
+        BookingSerializer.new(booking)
       end
     end
   end

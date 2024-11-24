@@ -18,6 +18,19 @@ module V1
         court = Court::Create.call(declared(params))
         CourtSerializer.new(court)
       end
+
+      # GET /courts
+      desc 'Return a list of courts'
+      params do
+        optional :filter, type: Hash, desc: "JSON API filtering params"
+        optional :sort, type: Hash, desc: "JSON API sorting params"
+        optional :page, type: Hash, desc: "JSON API paging params"
+      end
+
+      get do
+        courts = Court.all
+        CourtSerializer.new(courts)
+      end
     end
   end
 end

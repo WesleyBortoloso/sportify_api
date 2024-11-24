@@ -5,6 +5,8 @@ module V1
       params do
         requires :email, type: String, desc: 'User email'
         requires :password, type: String, desc: 'User password'
+        requires :document, type: String, desc: 'User document'
+        requires :name, type: String, desc: 'User name'
         requires :password_confirmation, type: String, desc: 'Password confirmation'
       end
       post do
