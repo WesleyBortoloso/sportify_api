@@ -8,6 +8,10 @@ class Base < Grape::API
       error!('Unauthorized', 401) unless current_user
     end
 
+    def authorize_admin!
+      error!('Forbidden', 403) unless current_user&.admin?
+    end
+
     def warden
       env['warden']
     end
