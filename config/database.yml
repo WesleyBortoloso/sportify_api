@@ -1,0 +1,22 @@
+
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  username: wesley
+  password: wesley
+  host: <%= ENV['DB_HOST'] || 'localhost' %>
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+development:
+  <<: *default
+  database: sportify_api_development
+
+test:
+  <<: *default
+  database: sportify_api_test
+
+production:
+  <<: *default
+  database: sportify_api_production
+  username: sportify_api
+  password: <%= ENV["SPORTIFY_API_DATABASE_PASSWORD"] %>
