@@ -21,11 +21,20 @@ module V1
 
       params do
         optional :filter, type: Hash, desc: 'Filtering parameters'
+        optional :page, type: Integer, default: 1, desc: 'Page number'
+        optional :per_page, type: Integer, default: 6, desc: 'Items per page'
       end
 
       get do
-        bookings = Booking.ransack(params[:filter]).result
-        BookingSerializer.new(bookings)
+        bookings = Booking.ransack(params[:filter]).result.page(params[:page]).per(params[:per_page])
+        BookingSerializer.new(
+          bookings,
+          meta: {
+            current_page: bookings.current_page,
+            total_pages: bookings.total_pages,
+            total_count: bookings.total_count
+          }
+        )
       end
 
       # PUT /bookings/:id

@@ -23,13 +23,20 @@ module V1
       desc 'Return a list of courts'
       params do
         optional :filter, type: Hash, desc: "JSON API filtering params"
-        optional :sort, type: Hash, desc: "JSON API sorting params"
-        optional :page, type: Hash, desc: "JSON API paging params"
+        optional :page, type: Integer, default: 1, desc: 'Page number'
+        optional :per_page, type: Integer, default: 6, desc: 'Items per page'
       end
 
       get do
-        courts = Court.all
-        CourtSerializer.new(courts)
+        courts = Court.ransack(params[:filter]).result.page(params[:page]).per(params[:per_page])
+        CourtSerializer.new(
+          courts,
+          meta: {
+            current_page: courts.current_page,
+            total_pages: courts.total_pages,
+            total_count: courts.total_count
+          }
+        )
       end
     end
   end
