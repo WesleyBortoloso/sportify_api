@@ -18,6 +18,8 @@ gem 'grape'
 gem 'rack-cors'
 gem 'jsonapi-serializer'
 gem 'grape-swagger'
+gem 'ransack'
+gem 'kaminari'
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 # gem "jbuilder"
