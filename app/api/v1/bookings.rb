@@ -18,14 +18,13 @@ module V1
 
       # GET /bookings
       desc 'Return a list of bookings'
+
       params do
-        optional :filter, type: Hash, desc: "JSON API filtering params"
-        optional :sort, type: Hash, desc: "JSON API sorting params"
-        optional :page, type: Hash, desc: "JSON API paging params"
+        optional :filter, type: Hash, desc: 'Filtering parameters'
       end
 
       get do
-        bookings = Booking.all
+        bookings = Booking.ransack(params[:filter]).result
         BookingSerializer.new(bookings)
       end
 
@@ -39,6 +38,17 @@ module V1
 
       put ':id' do
         booking = Booking::Update.call(declared(params))
+        BookingSerializer.new(booking)
+      end
+
+      # GET /bookings/:id
+      desc 'Return bookings details'
+      params do
+        requires :id, type: Integer, desc: 'Booking ID'
+      end
+
+      get ':id' do
+        booking = Booking.find(params[:id])
         BookingSerializer.new(booking)
       end
     end

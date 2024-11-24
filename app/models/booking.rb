@@ -6,6 +6,10 @@ class Booking < ApplicationRecord
 
   validate :no_time_conflict
 
+  def self.ransackable_attributes(auth_object = nil)
+    %w[public starts_on status]
+  end
+
   private
 
   def no_time_conflict
