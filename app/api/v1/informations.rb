@@ -12,8 +12,13 @@ module V1
       # GET /informations/me/activity
       desc 'Return the activity history of the logged-in user'
       get 'me/activity' do
-        activities = current_user&.bookings.order(created_at: :desc) # Exemplo: atividades relacionadas às reservas
-        BookingSerializer.new(activities)
+        created_bookings = current_user.bookings
+
+        player_bookings = Booking.joins(:players).where(players: { user_id: current_user.id })
+
+        all_bookings = (created_bookings + player_bookings).uniq.sort_by(&:created_at).reverse
+
+        BookingSerializer.new(all_bookings)
       end
     end
   end
