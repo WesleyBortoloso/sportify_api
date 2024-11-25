@@ -16,7 +16,8 @@ class BookingSerializer
       id: object.court.id,
       name: object.court.name,
       category: object.court.category,
-      price: object.court.price
+      price: object.court.price,
+      max_players: object.court.max_players
     }
   end
 

@@ -5,6 +5,7 @@ class Booking::Create < BaseInteraction
     generate_share_token!
     enrich_params!
     create_booking!
+    insert_user_as_a_player!
 
     booking
   end
@@ -21,6 +22,10 @@ class Booking::Create < BaseInteraction
 
   def enrich_params!
     @enriched_params ||= params.merge(user_id: current_user.id, share_token: share_token, ends_on: ends_on, total_value: court.price)
+  end
+
+  def insert_user_as_a_player!
+    booking.players.create!(nickname: current_user.name)
   end
 
   def ends_on
