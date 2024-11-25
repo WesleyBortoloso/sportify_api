@@ -11,7 +11,7 @@ class Booking::Update < BaseInteraction
   private
 
   def update_booking!
-    @booking = Booking.update(params)
+    booking.update(params)
   end
 
   def fetch_booking!
