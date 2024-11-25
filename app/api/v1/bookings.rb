@@ -69,7 +69,18 @@ module V1
       end
 
       get ':id/available_times' do
-        Booking::AvailableTimes.call(params)
+        Booking::AvailableTimes.call(declared(params))
+      end
+
+      # POST /bookings/:id/join
+      desc 'Join into public booking'
+      params do
+        requires :id, type: Integer, desc: 'Booking ID'
+      end
+
+      post ':id/join' do
+        booking = Booking::UserJoin.call(declared(params), current_user: current_user)
+        BookingSerializer.new(booking)
       end
     end
   end
