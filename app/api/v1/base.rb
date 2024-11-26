@@ -11,5 +11,6 @@ module V1
     mount V1::Players
     mount V1::Informations
     mount V1::Admin::Courts
+    mount V1::Public::Bookings
   end
 end

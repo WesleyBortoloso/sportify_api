@@ -7,7 +7,8 @@ class BookingSerializer
   attribute :user do |object|
     {
       id: object.user.id,
-      email: object.user.email
+      email: object.user.email,
+      name: object.user.name
     }
   end
 
