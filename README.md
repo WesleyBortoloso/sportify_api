@@ -1,24 +1,7 @@
-# README
+# API Sportify
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Essa API foi desenvolvida para suprir as necessidades do front que consumirá as informações para construção da ferramenta Sportify.
 
-Things you may want to cover:
+Foram utilizadas ferramentas como devise e grape para realizar a estrutura de rotas e autenticação.
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Você pode encontrar mais informações das rotas disponíveis através do swagger: https://wesleybortoloso.github.io/sportify_api_swagger/
