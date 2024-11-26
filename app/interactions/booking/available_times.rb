@@ -25,7 +25,8 @@ class Booking::AvailableTimes < BaseInteraction
 
   def fetch_available_times!
     @available_times = []
-    current_time = opening_time
+
+    current_time = [opening_time, Time.zone.now.change(min: 0) + (Time.zone.now.min.positive? ? 1.hour : 0)].max
 
     while current_time < closing_time
       next_time = current_time + 1.hour
